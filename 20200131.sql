@@ -183,6 +183,15 @@ WHERE b.buyer_id = p.prod_buyer;
 
 --join3 °úÁ¦ 
 
+SELECT m.mem_id, m.mem_name, p.prod_id, p.prod_name, c.cart_qty
+FROM member m, cart c, prod p
+WHERE m.mem_id = c.cart_member AND c.cart_prod = p.prod_id;
 
 
+--ANSI
+SELECT a.mem_id, a.mem_name, a.cart_qty, prod.prod_id, prod.prod_name
+FROM
+    (SELECT m.mem_id, m.mem_name,cart.cart_qty, cart.cart_prod
+    FROM member m Join cart ON (m.mem_id = cart.cart_member))a Join prod 
+    ON(a.cart_prod = prod.prod_id);
 
