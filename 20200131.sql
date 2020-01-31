@@ -181,7 +181,7 @@ SELECT b.buyer_id, b.buyer_name, p.prod_id, p.prod_name
 FROM buyer b, prod p
 WHERE b.buyer_id = p.prod_buyer;
 
---join3 과제
+--join3 과제 
 
 
 
