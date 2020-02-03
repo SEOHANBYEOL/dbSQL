@@ -147,11 +147,11 @@ WHERE d.buy_prod(+) = i.prod_id
 AND d.buy_date(+) = to_date('20050125','yyyymmdd');
 
 --outer join2
---??????????
-SELECT NVL(buy_date, d.buy_date),
-d.buy_date, d.buy_prod, i.prod_id, i.prod_name, d.buy_qty
+SELECT nvl(d.buy_date,to_date('20050125','yyyymmdd')), d.buy_prod, i.prod_id, i.prod_name, d.buy_qty
 FROM buyprod d, prod i
 WHERE d.buy_prod(+) = i.prod_id
 AND d.buy_date(+) = to_date('20050125','yyyymmdd');
+
+
 
 
