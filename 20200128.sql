@@ -192,3 +192,5 @@ FROM DUAL;
 
        
 -------------------PT 129 fn1 °úÁ¦------------------
+SELECT TO_DATE('19/12/31','YY/MM/DD') LASTDAY, TO_DATE('19/12/31','YY/MM/DD')-5 LASTDAY_BEFORES, SYSDATE NOW, SYSDATE-3 NOW_BEFORE3
+FROM dual;

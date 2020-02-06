@@ -23,6 +23,7 @@ FROM emp;
 SELECT TO_NUMBER(TO_CHAR(SYSDATE,'YYYY'))
 FROM dual;
 
+
 --짝수 -> 2로 나누었을때 나머지 0
 --홀수 -> 2로 나누었을때 나머지 1
 SELECT MOD(TO_NUMBER(TO_CHAR(SYSDATE,'YYYY')),2)
@@ -91,10 +92,10 @@ FROM emp;
 -- GROUP BY 절에 나온 컬럼이외의 다른컬럼이 SELECT절에 표현되면 에러
 
 --부서별 급여 합
-SELECT deptno, ename, 
+SELECT deptno,
         SUM(sal) sum_sal, MAX(sal) max_sal, MIN(sal), ROUND(AVG(sal),2), COUNT(sal)
 FROM emp
-GROUP BY deptno, ename;
+GROUP BY deptno;
 
 
 
@@ -176,11 +177,26 @@ FROM dept;
 
 --grp7
 SELECT COUNT(*) cnt
-    FROM (SELECT deptno 
+    FROM (SELECT deptno
             FROM emp
             GROUP BY deptno);
 
 
+SELECT *
+FROM emp;
 
+
+
+SELECT deptno, MAX(sal),COUNT(sal)
+FROM emp
+GROUP BY deptno;
+
+
+
+SELECT COUNT(*)
+FROM
+    (SELECT deptno, MAX(sal)
+    FROM emp
+    GROUP BY deptno);
 
 

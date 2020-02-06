@@ -10,10 +10,10 @@ FROM dual;
 -- 주차 IW : ISO 표준  - 해당주의 목요일의 기준으로 주차를 산정
 --          2019/12/31(화) -> 2020/01/02(목) --> 그렇기 때문에 1주차로 산정
 
-SELECT TO_CHAR(SYSDATE, 'YYYY-MM/DD HH24:MI:SS'),
-       TO_CHAR(SYSDATE, 'D'),
-       TO_CHAR(SYSDATE, 'IW'),
-       TO_CHAR(TO_DATE('2019/12/31', 'YYYY/MM/DD'), 'IW')
+SELECT TO_CHAR(SYSDATE, 'YYYY-MM/DD HH24:MI:SS')A,
+       TO_CHAR(SYSDATE, 'D')D,
+       TO_CHAR(SYSDATE, 'IW')IW,
+       TO_CHAR(TO_DATE('2019/12/31', 'YYYY/MM/DD'), 'IW')IW_1
 FROM dual;
 
 
@@ -35,9 +35,8 @@ FROM dual;
 --MONTHS_BETWEEN(DATE, DATE)
 --인자로 들어온 두 날짜 사이의 개월수를 리턴
 SELECT ename, hiredate,
-        MONTHS_BETWEEN(sysdate, hiredate), 
-        MONTHS_BETWEEN(TO_DATE('2020-01-17','YYYY-MM-DD'), hiredate)
-       
+        MONTHS_BETWEEN(sysdate, hiredate) BT_1, 
+        MONTHS_BETWEEN(TO_DATE('2020-01-17','YYYY-MM-DD'), hiredate) BT_2
 FROM emp
 WHERE ename='SMITH';
 
@@ -60,7 +59,6 @@ FROM dual;
 --date의 첫번째 일자는 어떻게 구할까?
 SELECT SYSDATE,
        LAST_DAY(SYSDATE),
-       --TRUNC(SYSDATE, 'MM'),
        TO_DATE('01','DD'),
        ADD_MONTHS(LAST_DAY(SYSDATE)+1, -1),
        TO_DATE(TO_CHAR(SYSDATE, 'YYYY-MM') || '-01', 'YYYY-MM-DD')
@@ -71,7 +69,7 @@ FROM dual;
 SELECT ename, hiredate, ADD_MONTHS(LAST_DAY(hiredate)+1,-1)
 FROM emp;
 
---empno는 NUMBER 타입, 인자는 무자열
+--empno는 NUMBER 타입, 인자는 문자열
 -- 타입이 맞지 않기 때문에 묵시적 형변환이 일어남.
 -- 테이블 칼럼의 타입에 맞게 올바른 인자 값을 주는게 중요
 SELECT *
@@ -242,4 +240,27 @@ FROM emp;
 --                           KING 이면 SAL *1.2리턴
 --                           그밖의 사람들은 SAL을 리턴
 -- 2. DECODE, CASE 혼용(과제)
+SELECT a.ename,a.job,a.sal, NVL(decode,ca) bonus_sal
+FROM
+    (SELECT ename, job, sal,
+    DECODE(job,'MANAGER',sal*1.1,
+                'PRESIDENT', sal*1.2)decode ,
+    CASE 
+        WHEN job='SALESMAN' AND sal >= 1400 THEN sal*1.05
+        WHEN job='SALESMAN' AND sal <= 1400 THEN sal*1.1
+        ELSE sal 
+    END ca 
+    FROM emp)a;
+    
+    
+--DECODE 안에 CASE나 DECODE문이 중첩이 가능하다.
+SELECT ename, job, sal,
+        DECODE(job,'SALESMAN',CASE
+                                    WHEN sal >= 1400 THEN sal*1.05
+                                    WHEN sal <= 1400 THEN sal*1.1
+                                    END,
+                    'MANAGER',sal*1.1,
+                    'PRESIDENT',sal*1.2,
+                    sal) bonus_sal
+FROM emp;
 

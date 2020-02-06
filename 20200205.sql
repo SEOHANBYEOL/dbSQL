@@ -229,12 +229,64 @@ FROM fastfood;
     
    
   
+  
+  --대전시에 있는 5개의 구 햄버거지수
+  --(kfc+버거킹+맥도날드)/롯데리아;
+  
+  
+  SELECT sido, count(*)
+  FROM fastfood
+  WHERE sido LIKE '%대전%'
+  GROUP BY sido;
+    
+  --분자(KFC, 버거킹, 맥도날드)
+  SELECT sido, sigungu, count(*)
+  FROM fastfood
+  WHERE sido = '대전광역시'
+  AND GB IN('KFC','버거킹','맥도날드')
+  GROUP BY sido, sigungu;
+
+  SELECT sido, sigungu, count(*)
+  FROM fastfood
+  WHERE sido = '대전광역시'
+  AND GB IN('롯데리아')
+  GROUP BY sido, sigungu;
+  
+  
+  
+  SELECT a.sido, a.sigungu, ROUND(a.c1/b.c2,2) hambuger_score
+  FROM
+  (SELECT sido, sigungu, count(*) c1
+  FROM fastfood
+  WHERE -- sido = '대전광역시'   AND
+  GB IN('KFC','버거킹','맥도날드')
+  GROUP BY sido, sigungu)A,
+
+  (SELECT sido, sigungu, count(*) c2
+  FROM fastfood
+  WHERE -- sido = '대전광역시'AND
+  GB IN('롯데리아')
+  GROUP BY sido, sigungu)B
+  
+  WHERE A.sido = b.sido
+  AND   A.sigungu = b.sigungu
+  ORDER BY hambuger_score;
+  
+  --fastfood테이블을 한번만 읽는 방식으로 작성하기;
+SELECT sido, sigungu, ROUND((kfc+BURGERKING+mac)/lot,2)burger_score
+FROM
+    (SELECT sido, sigungu,  
+            NVL(SUM(DECODE(gb,'KFC',1)),0)kfc, NVL(SUM(DECODE(gb, '버거킹',1)),0) BURGERKING,
+            NVL(SUM(DECODE(gb,'맥도날드',1)),0)mac, NVL(SUM(DECODE(gb, '롯데리아',1)),1) lot
+    FROM fastfood
+    WHERE gb IN('KFC','버거킹','맥도날드','롯데리아')
+    GROUP BY sido, sigungu)
+ORDER BY burger_score DESC;
     
     
-    
-    
-    
-    
+SELECT sido, sigungu, ROUND(sal/people) pri_sal
+FROM tax
+ORDER BY pri_sal DESC;
     
     
     

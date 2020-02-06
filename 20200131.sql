@@ -195,3 +195,9 @@ FROM
     FROM member m Join cart ON (m.mem_id = cart.cart_member))a Join prod 
     ON(a.cart_prod = prod.prod_id);
 
+SELECT m.mem_id, m.mem_name,cart.cart_qty, cart.cart_prod
+FROM member m Join cart ON (m.mem_id = cart.cart_member)
+              Join prod ON cart.cart_prod = prod.prod_id;
+              
+              
+              

@@ -42,6 +42,14 @@ GROUP BY CUSTOMER.cid,CUSTOMER.CNM, cycle.pid,product.pnm, cycle.cnt;
     
 
 --07과제
+SELECT cycle.pid, product.pnm, sum(cycle.CNT) 
+FROM cycle, product
+WHERE cycle.pid = product.pid
+GROUP BY cycle.pid, product.pnm;
+
+
+
+
 --hr(08~13)
 
 -- 해당 오라클 서버에 등록된 사용자 계정 활성화
