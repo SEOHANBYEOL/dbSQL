@@ -348,5 +348,64 @@ INSERT INTO emp_test VALUES(9999,'brown',10); --dept_test테이블에 10번부서가 존�
 INSERT INTO emp_test VALUES(9999,'brown',99); --dept_test테이블에 99번부서가 존재하므로 정상 실행
 
 
+--과제--------
+
+CREATE TABLE tb_dept(
+    d_cd VARCHAR(20) CONSTRAINT PK_tb_dept PRIMARY KEY,
+    d_nm VARCHAR(50) NOT NULL,
+    p_d_cd VARCHAR(20)
+);
+
+CREATE TABLE tb_grade(
+    g_cd VARCHAR(20)CONSTRAINT PK_tb_grade PRIMARY KEY,
+    g_nm VARCHAR(50) NOT NULL,
+    ord NUMBER
+
+);
+
+CREATE TABLE tb_job(
+    j_cd VARCHAR(20)CONSTRAINT PK_tb_job PRIMARY KEY,
+    j_nm VARCHAR(50) NOT NULL,
+    ord NUMBER
+
+);
+
+
+CREATE TABLE tb_emp(
+    e_no NUMBER CONSTRAINT PK_tb_emp PRIMARY KEY,
+    e_nm VARCHAR(50) NOT NULL,
+    g_cd VARCHAR(20) NOT NULL, 
+    j_cd VARCHAR(20) NOT NULL,
+    d_cd VARCHAR(20) NOT NULL,
+    
+    CONSTRAINT FK_tb_grade_TO_tb_emp FOREIGN KEY (g_cd) REFERENCES tb_grade (g_cd),
+    CONSTRAINT FK_tb_job_TO_tb_emp FOREIGN KEY (j_cd) REFERENCES tb_job (j_cd),
+    CONSTRAINT FK_tb_dept_TO_tb_emp FOREIGN KEY (d_cd) REFERENCES tb_dept (d_cd)
+
+);
+
+
+CREATE TABLE tb_cs_cd(
+    cs_cd VARCHAR(20)CONSTRAINT PK_tb_cs_cd PRIMARY KEY,
+    cs_nm VARCHAR(50) NOT NULL,
+    p_cs_cd VARCHAR(20)
+ 
+
+);
+
+CREATE TABLE tb_counsel(
+    cs_id VARCHAR(20)CONSTRAINT PK_tb_counsel PRIMARY KEY,
+    cs_reg_dt DATE NOT NULL,
+    cs_cont VARCHAR2(40) NOT NULL,
+    e_no NUMBER NOT NULL,
+    cs_cd1 VARCHAR2(20) NOT NULL,
+    cs_cd2 VARCHAR2(20),
+    cs_cd3 VARCHAR2(20),
+    CONSTRAINT FK_tb_emp_TO_tb_counsel FOREIGN KEY (e_no) REFERENCES tb_emp (e_no),
+    CONSTRAINT FK_tb_cs_cd_TO_tb_counsel2 FOREIGN KEY (cs_cd2) REFERENCES tb_cs_cd (cs_cd)
+    
+
+);
+
 
 
