@@ -355,13 +355,13 @@ CREATE TABLE emp_test(
     hp VARCHAR2(30));
 --2. empno, ename, deptno 3가지 컬럼에만 (9999, 'brown', 99) 데이터로 INSERT
 INSERT INTO emp_test (empno, ename, deptno) VALUES(9999, 'brown', 99);
-INSERT INTO emp_test (empno, ename, deptno) VALUES(9999, 'brown', 99);
-INSERT INTO emp_test (empno, ename, deptno) VALUES(9999, 'brown', 99);
+
 --3. emp_test 테이블의 hp 컬럼의 기본값을 '010'으로 설정
 ALTER TABLE emp_test MODIFY (hp DEFAULT '010');
 --4. 2번과정에 입력한 데이터의 hp 컬럼 값이 어떻게 바뀌는지 확인
 SELECT *
 FROM emp_test;
+
 
 
 
