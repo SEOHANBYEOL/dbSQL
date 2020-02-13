@@ -156,14 +156,87 @@ SELECT * FROM dept WHERE 1 = 1;
 
 
 --½Ç½À idx4
---empno(=)
---
+--emp : empno(=) , deptno(=), sal(BETWEEN)
+--dept : deptno(=), loc(=)
+ 
+CREATE TABLE dept2 AS 
+SELECT * FROM dept WHERE 1 = 1;
+
+CREATE TABLE emp2 AS 
+SELECT * FROM emp WHERE 1 = 1;
+
+
+
+CREATE UNIQUE INDEX idx_u_emp2_01 ON emp2(empno);
+CREATE INDEX idx_n_emp2_02 ON emp2(deptno,sal);
+
+
+CREATE UNIQUE INDEX idx_u_dept2_01 ON dept2(deptno);
+CREATE INDEX idx_n_dept2_02 ON dept2(loc);
+
+select *
+from dept2;
+select *
+from emp2;
+
+
+DROP INDEX idx_u_emp2_01;
+DROP INDEX idx_n_emp2_02;
+
+DROP INDEX idx_u_dept2_01;
+DROP INDEX idx_n_dept2_02;
+
+explain plan for
+SELECT *
+FROM emp2
+WHERE empno = :empno;
+ 
+SELECT *
+FROM TABLE(dbms_xplan.display); 
+ 
+ 
+explain plan for
+SELECT *
+FROM dept2
+WHERE deptno = :deptno;
+ 
+SELECT *
+FROM TABLE(dbms_xplan.display); 
+
+
+explain plan for
+SELECT *
+FROM emp2, dept2
+WHERE emp2.deptno = dept2.deptno
+AND emp2.deptno = :deptno
+AND emp2.deptno LIKE : deptno || '%';
+ 
+SELECT *
+FROM TABLE(dbms_xplan.display); 
 
  
+
+explain plan for
+SELECT *
+FROM emp2
+WHERE sal BETWEEN : st_sal AND :ed_sal
+AND deptno = :deptno;
  
+SELECT *
+FROM TABLE(dbms_xplan.display); 
+
+
+explain plan for
+SELECT *
+FROM emp2, dept2
+WHERE emp2.deptno = dept2.deptno
+AND emp2.deptno = : deptno
+AND dept2.loc = :loc;
  
- 
- 
+SELECT *
+FROM TABLE(dbms_xplan.display); 
+
+
  
  
  
