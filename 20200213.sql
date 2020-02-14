@@ -360,8 +360,31 @@ FROM emp
 GROUP BY ROLLUP (job, deptno);
 
 
+
+
+--GROUP_AD2 ƒı∏Æ ¿€º∫ (DECODE)
+--DECODE(¿Œ¿⁄(¡∂∞«X))
 SELECT  
 DECODE (GROUPING(job),1,'√—∞Ë',0,job) job,
 deptno, SUM(sal + NVL(comm,0)) sal
 FROM emp
 GROUP BY ROLLUP (job, deptno);
+
+--GROUP_AD2-1 ƒı∏Æ ¿€º∫ (DECODE/ CASE)
+SELECT  
+CASE WHEN GROUPING(job)=1 AND GROUPING(deptno)=1 THEN '√—'
+     ELSE job
+END JOB,
+
+CASE WHEN TO_CHAR(GROUPING(job))='0' AND TO_CHAR(GROUPING(deptno))='1' THEN 'º“∞Ë'
+     WHEN TO_CHAR(GROUPING(job))='1' AND TO_CHAR(GROUPING(deptno))='1' THEN '∞Ë'
+     ELSE TO_CHAR(deptno)
+END deptno,
+
+SUM(sal + NVL(comm,0)) sal
+FROM emp
+GROUP BY ROLLUP (job, deptno);
+
+
+
+
