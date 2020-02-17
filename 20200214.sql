@@ -294,3 +294,11 @@ SELECT TO_DATE('202002','YYYYMM')+ (level-1),
        
 FROM DUAL
 CONNECT BY LEVEL <= TO_CHAR(LAST_DAY(TO_DATE('202002','YYYYMM')),'DD');
+
+
+SELECT job, deptno, mgr, SUM(sal+NVL(comm,0))sal
+FROM emp
+GROUP BY job, rollup(deptno), cube(mgr);
+
+
+
