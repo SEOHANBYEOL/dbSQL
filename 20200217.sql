@@ -191,6 +191,11 @@ CONNECT BY PRIOR deptcd = p_deptcd;
 
 
 
+--실습 h_2
+SELECT level, dept_h.deptcd, lpad(' ',(LEVEL-1)*4, ' ') || deptnm,P_DEPTCD
+FROM dept_h
+START WITH deptcd = 'dept0_02' 
+CONNECT BY PRIOR deptcd = p_deptcd;
 
  
  --201912 //각주의 일요일구해서/....?..
@@ -211,5 +216,22 @@ FROM
     CONNECT BY LEVEL <= TO_CHAR(LAST_DAY(TO_DATE(:dt, 'yyyymm')), 'DD'))
     GROUP BY DECODE (d,1,iw+1, iw)
     ORDER BY DECODE (d,1,iw+1, iw);
+    
+--LPAD(문자열, 전체길이, 부족한 길이만큼 채울 문자)
+--LPAD(문자열, 전체길이)
+
+--상향식 계층 쿼리 (leaf --> root node(상위 node))
+--전체 노드를 방문하는게 아니라 자신의 부모노드만 방문한다.(하향식과 다른점)
+
+--시작점 : 디자인팀
+--연결은 : 상위부서
+
+SELECT *
+FROM dept_h
+START WITH deptnm = '디자인팀'
+CONNECT BY PRIOR p_deptcd = deptcd;
+
+
+
     
     
