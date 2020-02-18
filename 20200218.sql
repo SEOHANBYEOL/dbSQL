@@ -232,10 +232,19 @@ WHERE deptno IN (30)
 order by deptno, sal DESC) a;
 
 
+//°úÁ¦
+SELECT ename, sal, aa.deptno, bb.lv
 
+FROM 
+(SELECT rownum rn, ename, sal, deptno
+FROM
+(SELECT *
+FROM emp
+ORDER BY deptno, sal DESC))aa,
 
-
-SELECT *
+(SELECT rownum rn, deptno, cnt, lv
+FROM
+(SELECT deptno, cnt, lv
 FROM
 (SELECT deptno, COUNT(*) cnt
 FROM emp
@@ -244,4 +253,27 @@ GROUP BY deptno)b,
 FROM dual
 CONNECT BY level <= 14)a
 WHERE b.cnt >= a.lv
-ORDER BY b.deptno, a.lv
+ORDER BY b.deptno, a.lv))bb
+
+WHERE aa.rn = bb.rn;
+
+
+
+
+
+SELECT *
+FROM
+(SELECT *
+FROM emp
+ORDER BY deptno, sal DESC)emp_t,
+
+(SELECT *
+FROM
+(SELECT deptno, COUNT(*) cnt
+FROM emp
+GROUP BY deptno)b,
+(SELECT LEVEL lv
+FROM dual
+CONNECT BY level <= 14)a
+WHERE b.cnt >= a.lv
+ORDER BY b.deptno, a.lv)lank_t
