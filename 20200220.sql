@@ -212,5 +212,22 @@ BEGIN
 END;
 /
 
-
+SET SERVEROUTPUT ON;
 exec printemp(7844);
+
+
+
+
+
+CREATE OR REPLACE PROCEDURE registdept_test(p_deptno IN dept.deptno%TYPE, p_dname IN dept.dname%TYPE, p_loc IN dept.loc%TYPE) IS
+    
+BEGIN
+   INSERT INTO dept_test(deptno, dname, loc, empcnt) VALUES(p_deptno, p_dname, p_loc, 0); 
+    
+END;
+/
+
+exec registdept_test(99,'ddit','daejeon')
+
+SELECT *
+FROM dept_test;
